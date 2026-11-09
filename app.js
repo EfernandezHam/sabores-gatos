@@ -599,7 +599,7 @@
   /* ---------- tomas ---------- */
   function entryEl(l, showFlavor, onlyCat){
     var f = FMAP[l.flavorId];
-    var box = el("div", "entry");
+    var box = el("div", "ebody");
     var top = el("div", "entrytop");
     if(showFlavor){
       var n = el("div", "entryname", f ? f.flavor : "Sabor eliminado");
@@ -634,7 +634,17 @@
     });
     if(l.note) box.appendChild(el("p", "hint", "Nota: " + l.note));
     if(l.used) box.appendChild(el("p", "hint", "Restó " + fmt(l.used) + (l.used === 1 ? " sobre" : " sobres") + " del stock."));
-    return box;
+    var outer = el("div", "entry");
+    if(showFlavor && f && imgSrc(f.id)){
+      outer.className = "entry has-img";
+      var ph = el("img", "ephoto");
+      ph.onerror = function(){ ph.style.display = "none"; };
+      ph.src = imgSrc(f.id);
+      ph.alt = "Sobre " + f.brand + " " + f.flavor;
+      outer.appendChild(ph);
+    }
+    outer.appendChild(box);
+    return outer;
   }
 
   /* ---------- vista: sabores ---------- */
@@ -1283,6 +1293,9 @@
     gc.appendChild(el("p", "", "Stock actual: " + fmt(stockSobres) + " sobres, valorado en " + fmtEur(stockValue)));
     stats.appendChild(gc);
     wrap.appendChild(stats);
+    if(window.GA && typeof window.GA.charts === "function"){
+      try{ wrap.appendChild(window.GA.charts()); }catch(e){}
+    }
 
     var panel = el("section", "panel");
     panel.style.marginTop = "16px";
@@ -1486,6 +1499,15 @@
     }
     try{ window.scrollTo(0, scrollY); }catch(e){}
   }
+
+  window.GA = {
+    data: function(){ return {flavors:flavors, logs:logs, ord:ORD, fmap:FMAP, prices:prices}; },
+    cats:CATS, months:MS, imgBase:IMG_BASE,
+    el:el, fmt:fmt, fmtEur:fmtEur, mean:mean, series:series, scoreFor:scoreFor,
+    usedBy:usedBy, priceOf:priceOf, imgSrc:imgSrc, chipGroup:chipGroup,
+    parseISO:parseISO, isoOf:isoOf, addDays:addDays, todayISO:todayISO,
+    render:render
+  };
 
   function boot(){
     if(!window.supabase || !SUPABASE_URL || !SUPABASE_KEY || SUPABASE_URL.indexOf("TU-") !== -1){
