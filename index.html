@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sabores de Zoro y Gobi</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%90%88%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="avatars">
+      <img id="av-zoro" src="img/zoro.jpg" alt="Zoro" width="64" height="64">
+      <img id="av-gobi" src="img/gobi.jpg" alt="Gobi" width="64" height="64">
+    </div>
+    <div>
+      <h1>Sabores de Zoro y Gobi</h1>
+      <p class="sub">Registra cada toma con su fecha, controla el stock de sobres y consulta las medias, el historial y el calendario.</p>
+    </div>
+  </header>
+  <div class="statusbar" id="statusbar"></div>
+  <div id="alert"></div>
+  <nav class="tabs" id="tabs" aria-label="Secciones"></nav>
+  <div id="view"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
