@@ -1448,7 +1448,7 @@
   }
 
   /* ---------- render ---------- */
-  var TABS = [["flavors","Sabores"],["reg","Registrar"],["cal","Calendario"],["hist","Historial"]];
+  var TABS = [["flavors","Sabores"],["reg","Registrar"],["cal","Calendario"],["hist","Historial"],["peso","Peso"]];
   function renderTabs(){
     var nav = document.getElementById("tabs");
     nav.innerHTML = "";
@@ -1487,6 +1487,14 @@
     if(tab === "flavors") v.appendChild(viewFlavors());
     else if(tab === "reg") v.appendChild(viewRegister());
     else if(tab === "cal") v.appendChild(viewCalendar());
+    else if(tab === "peso"){
+      if(window.GA && typeof window.GA.weightView === "function"){
+        try{ v.appendChild(window.GA.weightView()); }
+        catch(e){ v.appendChild(el("div", "empty", "No se pudo mostrar el control de peso.")); }
+      } else {
+        v.appendChild(el("div", "empty", "Falta el archivo peso.js."));
+      }
+    }
     else v.appendChild(viewHistory());
     if(k){
       var all = document.querySelectorAll("[data-k]");
@@ -1506,6 +1514,10 @@
     el:el, fmt:fmt, fmtEur:fmtEur, mean:mean, series:series, scoreFor:scoreFor,
     usedBy:usedBy, priceOf:priceOf, imgSrc:imgSrc, chipGroup:chipGroup,
     parseISO:parseISO, isoOf:isoOf, addDays:addDays, todayISO:todayISO,
+    fmtDate:fmtDate, fmtDateLong:fmtDateLong, validISO:validISO, parseNum:parseNum,
+    catLabel:catLabel, armBtn:armBtn,
+    client:function(){ return sb; },
+    session:function(){ return session; },
     render:render
   };
 
