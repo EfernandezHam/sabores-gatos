@@ -26,6 +26,8 @@
     ["leo-fasan-cranberries","Faisán y arándanos","Fasan + Cranberries","Leonardo"],
     ["leo-rind-pur","Puro de ternera","Rind pur","Leonardo"],
     ["leo-truthahn-pur","Puro de pavo","Truthahn pur","Leonardo"],
+    ["leo-ave-huevo","Ave y huevo","Ave + Huevo","Leonardo"],
+    ["leo-trucha-catnip","Trucha y catnip","Trucha + Catnip","Leonardo"],
     ["own-sterilized-chicken-salmon","Esterilizados pollo y salmón","Wetline Sterilized Chicken & Salmon","Ownat"],
     ["own-sterilized-turkey-tuna","Esterilizados pavo y atún","Wetline Sterilized Turkey & Tuna","Ownat"],
     ["own-sterilized-chicken-turkey","Esterilizados pollo y pavo","Wetline Sterilized Chicken & Turkey","Ownat"],
@@ -107,6 +109,17 @@
 
   function seed(){
     SEEDS.forEach(function(s){
+      if(!flavors.some(function(f){ return f.id === s[0]; })){
+        flavors.push({id:s[0], flavor:s[1], alt:s[2], brand:s[3], stock:null, pos:nextPos()});
+      }
+    });
+  }
+
+  // Sabores añadidos después de crear la base de datos: se dan de alta solos si faltan
+  var NEW_SEEDS = ["leo-ave-huevo","leo-trucha-catnip"];
+  function seedNew(ids){
+    SEEDS.forEach(function(s){
+      if(ids.indexOf(s[0]) === -1) return;
       if(!flavors.some(function(f){ return f.id === s[0]; })){
         flavors.push({id:s[0], flavor:s[1], alt:s[2], brand:s[3], stock:null, pos:nextPos()});
       }
@@ -289,6 +302,7 @@
     try{
       applyState(await fetchState());
       if(!flavors.length){ seed(); cleanFlavors(); }
+      else { seedNew(NEW_SEEDS); cleanFlavors(); }
       ready = true;
       render();
       save();
